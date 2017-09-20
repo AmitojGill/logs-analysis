@@ -56,8 +56,12 @@ def report_top_three_articles(top_three_articles):
 def get_author_views():
 
 	'''
-	
+	Objective of this function is to get views per author
+	INPUT: No inputs
+	OUTPUTS: Returns a list of authors and their total views
+	VIEWS IN PostgreSQL: author_views view must be created, see readme.md file for more details.
 	'''
+
 	db = psycopg2.connect(dbname = DBNAME)
 	c = db.cursor()
 
@@ -73,6 +77,12 @@ def get_author_views():
 
 def report_author_views(author_view_list):
 
+	'''
+	Objective of this function is to print top authors and their total views
+	INPUTS: author_view_list is an input in a list format with tuples as values for the list
+	OUTPUTS: It prints/desplys the authors and their view counts. 
+	'''
+
 	print ("")
 	print ("List of most popular author to the lease:")
 	print ("")
@@ -83,7 +93,11 @@ def report_author_views(author_view_list):
 
 
 def final_report():
-
+	'''
+	Objective of this function is to call all the the reporting functions.
+	INPUTS: There are no inputs
+	OUTPUTS: There are no outputs
+	'''
 	report_top_three_articles(get_top_articlse())
 
 	report_author_views(get_author_views())
