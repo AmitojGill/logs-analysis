@@ -46,19 +46,47 @@ def report_top_three_articles(top_three_articles):
 	INPUTS: top_three_artciles is an input in a list format with tuples as values for the list
 	OUTPUTS: It prints/desplys the top three article titles and their view counts. 
 	'''
-
+	print ("")
 	print ("The three most popular articles of all time:")
 	print("")
 	for article in top_three_articles:
 		print (article[0] + " - " + str(article[1]) + " views")
 
 
+def get_author_views():
+
+	'''
+	
+	'''
+	db = psycopg2.connect(dbname = DBNAME)
+	c = db.cursor()
+
+	author_views = '''SELECT authors.name, author_views.total_views FROM authors JOIN author_views ON authors.id = author_views.author;'''
+	
+	c.execute(author_views)
+
+	author_view_list = c.fetchall()
+
+	return author_view_list
+	db.close()
+
+
+def report_author_views(author_view_list):
+
+	print ("")
+	print ("List of most popular author to the lease:")
+	print ("")
+
+	for author in author_view_list:
+		print (author[0] + " - " + str(author[1]) + " views")
+
 
 
 def final_report():
+
 	report_top_three_articles(get_top_articlse())
 
-re
+	report_author_views(get_author_views())
 
 
 final_report()   
