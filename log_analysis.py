@@ -47,7 +47,7 @@ def report_top_three_articles(top_three_articles):
 	OUTPUTS: It prints/desplys the top three article titles and their view counts. 
 	'''
 
-	print ("What are the most popular three articles of all time?")
+	print ("The three most popular articles of all time:")
 	print("")
 	for article in top_three_articles:
 		print (article[0] + " - " + str(article[1]) + " views")
@@ -58,7 +58,7 @@ def report_top_three_articles(top_three_articles):
 def final_report():
 	report_top_three_articles(get_top_articlse())
 
-
+re
 
 
 final_report()   
