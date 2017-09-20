@@ -11,17 +11,11 @@ DBNAME = "news"
 
 def get_top_articlse():
 
-	''' Following view need to be crearted path_view created'''
-
 	'''
-		CREATE view path_views as
-		select path, count(*) as views
-		from log
-		where path like '%article%' 
-		and status like '%2%'
-		group by path
-		order by views desc;
-
+	Objective of get_top_articles() is return top three viwed articles.
+	INPUTS: There a no imputs
+	OUTPUTS: Is a list of top three viewd articles. 
+	VIEWS IN PostgreSQL: path_views view must be created, see readme.md file for more details.
 	'''
 
 	top_viewed_paths =  '''select * from path_views'''
@@ -33,15 +27,38 @@ def get_top_articlse():
 
 	c.execute(top_viewed_paths)
 
-	top_views_articles = ''' SELECT title, path_views.views FROM articles JOIN path_views on articles.slug = path_views.substrings LIMIT 3; '''
+	top_views_articles = '''SELECT title, path_views.views FROM articles JOIN path_views on articles.slug = path_views.path LIMIT 3;'''
 
-	
-	for row in c.fetchall():
-		print row
+	c.execute(top_views_articles)
 
+	top_three_articles =  c.fetchall()
 
-	return c.fetchall()
+	return top_three_articles
 	db.close()
 
 
-get_top_articlse()
+
+
+def report_top_three_articles(top_three_articles):
+
+	'''
+	Objective of this function is to print top three articles and their view count
+	INPUTS: top_three_artciles is an input in a list format with tuples as values for the list
+	OUTPUTS: It prints/desplys the top three article titles and their view counts. 
+	'''
+
+	print ("What are the most popular three articles of all time?")
+	print("")
+	for article in top_three_articles:
+		print (article[0] + " - " + str(article[1]) + " views")
+
+
+
+
+def final_report():
+	report_top_three_articles(get_top_articlse())
+
+
+
+
+final_report()   
