@@ -44,8 +44,8 @@ def report_top_three_articles(top_three_articles):
     OUTPUTS: It prints/desplys the top three article titles and their view
     counts.
     '''
-    print ("")
-    print ("The three most popular articles of all time:")
+    print("")
+    print("The three most popular articles of all time:")
     print("")
     for article in top_three_articles:
         print(article[0]+" - "+str(article[1])+" views")
@@ -82,12 +82,12 @@ def report_author_views(author_view_list):
     OUTPUTS: It prints/desplys the authors and their view counts.
     '''
 
-    print ("")
-    print ("List from the most popular author to the least:")
-    print ("")
+    print("")
+    print("List from the most popular author to the least:")
+    print("")
 
     for author in author_view_list:
-        print (author[0] + " - " + str(author[1]) + " views")
+        print(author[0] + " - " + str(author[1]) + " views")
 
 
 def get_most_error_per_day():
