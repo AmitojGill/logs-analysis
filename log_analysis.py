@@ -1,6 +1,5 @@
-'''
-This program uses python 3.0
-'''
+#!/usr/bin/python3
+
 import psycopg2
 
 DBNAME = "news"
