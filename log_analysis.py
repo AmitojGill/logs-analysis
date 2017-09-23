@@ -1,8 +1,30 @@
 #!/usr/bin/python3
-
 import psycopg2
 
-DBNAME = "news"
+
+def connect(database_name):
+    '''Connect to the PostgreSQL database. Returns a database connection.'''
+    try:
+        db = psycopg2.connect("dbname={}".format(database_name))
+        c = db.cursor()
+        return db, c
+    except psycopg2.Error as e:
+        print("Unable to connect to database")
+        sys.exit(1)
+
+
+def get_query_results(query):
+    '''
+    Objective of this funciton is to get query results from the databse
+    INPUT: takes in query as an input
+    Outputs: returns results from the qurey. 
+    '''
+    db, c = connect("news")
+    c.execute(query)
+    db.commit()
+    results = c.fetchall()
+    db.close()
+    return results
 
 
 def get_top_articlse():
@@ -15,23 +37,14 @@ def get_top_articlse():
     file for more details.
     '''
 
-    top_viewed_paths = '''select * from path_views'''
-
-    db = psycopg2.connect(dbname=DBNAME)
-    c = db.cursor()
-
-    c.execute(top_viewed_paths)
     top_views_articles = '''SELECT title, path_views.views
     FROM articles
     JOIN path_views on articles.slug = path_views.path
     LIMIT 3;'''
 
-    c.execute(top_views_articles)
+    results = get_query_results(top_views_articles)
 
-    top_three_articles = c.fetchall()
-
-    return top_three_articles
-    db.close()
+    return results
 
 
 def report_top_three_articles(top_three_articles):
@@ -58,17 +71,13 @@ def get_author_views():
     VIEWS IN PostgreSQL: author_views view must be created, see readme.md
     file for more details.
     '''
-    db = psycopg2.connect(dbname=DBNAME)
-    c = db.cursor()
     author_views = '''SELECT authors.name, author_views.total_views
     FROM authors JOIN author_views
     ON authors.id = author_views.author;'''
 
-    c.execute(author_views)
-    author_view_list = c.fetchall()
+    results = get_query_results(author_views)
 
-    return author_view_list
-    db.close()
+    return results
 
 
 def report_author_views(author_view_list):
@@ -102,17 +111,12 @@ def get_most_error_per_day():
     see readme.md file for more details.
     '''
 
-    db = psycopg2.connect(dbname=DBNAME)
-    c = db.cursor()
-
     error_rate = '''SELECT * FROM error_rate_per_day
     WHERE percentage_error > 1;'''
-    c.execute(error_rate)
 
-    most_error = c.fetchall()
+    results = get_query_results(error_rate)
 
-    return most_error
-    db.close()
+    return results
 
 
 def report_most_error_per_day(most_error):
