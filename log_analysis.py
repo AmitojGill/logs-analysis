@@ -1,5 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import psycopg2
+import sys
 
 
 def connect(database_name):
@@ -10,6 +11,7 @@ def connect(database_name):
         return db, c
     except psycopg2.Error as e:
         print("Unable to connect to database")
+        print(e)
         sys.exit(1)
 
 
@@ -17,7 +19,7 @@ def get_query_results(query):
     '''
     Objective of this funciton is to get query results from the databse
     INPUT: takes in query as an input
-    Outputs: returns results from the qurey. 
+    Outputs: returns results from the qurey.
     '''
     db, c = connect("news")
     c.execute(query)
@@ -59,8 +61,8 @@ def report_top_three_articles(top_three_articles):
     print("")
     print("The three most popular articles of all time:")
     print("")
-    for article in top_three_articles:
-        print(article[0]+" - "+str(article[1])+" views")
+    for title, views in top_three_articles:
+        print('\"{}\" -- {} views'.format(title, views))
 
 
 def get_author_views():
@@ -134,9 +136,7 @@ def report_most_error_per_day(most_error):
     print(" ")
 
     for days in most_error:
-        print(str(days[0]) + " - "
-              + str((format(days[1], '.2f'))) + "%  errors"
-              )
+        print('{0} - {1:.2f}% errors'.format(days[0], days[1]))
 
 
 def final_report():
