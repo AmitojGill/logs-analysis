@@ -151,4 +151,5 @@ def final_report():
     report_most_error_per_day(get_most_error_per_day())
 
 
-final_report()
+if __name__ == '__main__':
+    final_report()
